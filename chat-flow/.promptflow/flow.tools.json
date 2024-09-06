@@ -1,0 +1,99 @@
+{
+  "package": {},
+  "code": {
+    "chat.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "chat_history": {
+          "type": [
+            "string"
+          ]
+        },
+        "question": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "chat.jinja2"
+    },
+    "check_question_intent.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ]
+        },
+        "chat_history": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "check_question_intent.jinja2"
+    },
+    "generate_sql.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ]
+        },
+        "chat_history": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "generate_sql.jinja2"
+    },
+    "conclude_answer.py": {
+      "type": "python",
+      "inputs": {
+        "sql_answer": {
+          "type": [
+            "string"
+          ]
+        },
+        "chat_answer": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "conclude_answer.py",
+      "function": "return_answer"
+    },
+    "chat_on_your_data.py": {
+      "type": "python",
+      "inputs": {
+        "input1": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "chat_on_your_data.py",
+      "function": "my_python_tool"
+    },
+    "chat_with_data.py": {
+      "type": "python",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ]
+        },
+        "history": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "chat_with_data.py",
+      "function": "my_python_tool"
+    }
+  }
+}

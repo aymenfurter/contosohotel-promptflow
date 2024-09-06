@@ -1,0 +1,18 @@
+system:
+You will be given a conversation history and a question. If the question is related to booking information of the hotel, please respond with the word "SQL", otherwise respond with the word "UNSTRUCTURED". Do not answer with anything other than "SQL" or "UNSTRUCTURED".
+
+Examples:
+- Do you have a pool? UNSTRUCTURED
+- Do you have any rooms available? SQL
+- Do you have any rooms available for the weekend? SQL
+- What breakfast options do you have? UNSTRUCTURED
+
+{% for item in chat_history %}
+user:
+{{item.inputs.question}}
+assistant:
+{{item.outputs.answer}}
+{% endfor %}
+
+user:
+{{question}}

@@ -1,0 +1,61 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  chat_history:
+    type: list
+    is_chat_history: true
+    default: []
+  question:
+    type: string
+    is_chat_input: true
+outputs:
+  answer:
+    type: string
+    reference: ${conclude_answer.output}
+    is_chat_output: true
+nodes:
+- name: check_question_intent
+  type: llm
+  source:
+    type: code
+    path: check_question_intent.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    chat_history: ${inputs.chat_history}
+    question: ${inputs.question}
+  connection: rerag
+  api: chat
+- name: chat_with_data
+  type: python
+  source:
+    type: code
+    path: chat_with_data.py
+  inputs:
+    history: ${inputs.chat_history}
+    question: ${inputs.question}
+  activate:
+    when: ${check_question_intent.output}
+    is: UNSTRUCTURED
+- name: generate_sql
+  type: llm
+  source:
+    type: code
+    path: generate_sql.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    question: ${inputs.question}
+    chat_history: ${inputs.chat_history}
+  connection: rerag
+  api: chat
+  activate:
+    when: ${check_question_intent.output}
+    is: SQL
+- name: conclude_answer
+  type: python
+  source:
+    type: code
+    path: conclude_answer.py
+  inputs:
+    sql_answer: ${generate_sql.output}
+    chat_answer: ${chat_with_data.output}
